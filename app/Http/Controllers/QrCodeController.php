@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -43,11 +45,12 @@ class QrCodeController extends Controller
         return view('qrcode_show', ['qrCode' => $qrCodeImage]);
     }
 
-    // Validasi QR Code berdasarkan angka acak
+
     public function validateQrCode(Request $request)
     {
         $qrCodeData = $request->input('qr_code'); // Data QR code yang dikirimkan
-// dd($qrCodeData);
+        $user_id = $request->input('user_id'); // ID pengguna dari request
+
         // Ambil angka acak dari cache
         $cacheKey = 'attendance_qrcode';
         $cachedData = Cache::get($cacheKey);
@@ -58,11 +61,80 @@ class QrCodeController extends Controller
             $decodedData = json_decode($qrCodeData, true);
             if ($decodedData && isset($decodedData['random_number'])) {
                 $randomNumber = $decodedData['random_number'];
-                
+
                 // Cek apakah angka acak cocok
                 if ($cachedData['random_number'] === $randomNumber) {
-                    // dd($cachedData['random_number']);
-                    return response()->json(['status' => 'valid', 'message' => 'QR Code valid'], 200);
+                    $now = Carbon::now('Asia/Jayapura'); // Waktu sekarang dalam zona waktu yang diinginkan
+                    
+                    // Cek apakah user sudah melakukan absensi untuk hari ini
+                    $absensiHariIni = Absensi::where('user_id', $user_id)
+                        ->where('tanggal', $now->format('Y-m-d'))
+                        ->first();
+
+                    // Logika untuk absensi masuk atau pulang
+                    if ($now->hour >= 5 &&$now->hour <= 8) {
+                        // Jika jam kurang dari 8, set jam masuk jika belum ada jam masuk
+                        if (!$absensiHariIni) {
+                            $absensi = new Absensi();
+                            $absensi->user_id = $user_id;
+                            $absensi->tanggal = $now->format('Y-m-d'); // Tanggal dalam format Y-m-d
+                            $absensi->jam_masuk = $now->format('H:i:s'); // Jam masuk
+                            $absensi->status = 'Hadir'; // Status kehadiran
+                            $absensi->created_at = now();
+                            $absensi->updated_at = now();
+                            $absensi->save(); // Menyimpan data absensi ke database
+
+                            return response()->json(['status' => 'valid', 'message' => 'Absensi masuk berhasil dicatat.'], 200);
+                        } else {
+                            return response()->json(['status' => 'invalid', 'message' => 'Anda sudah absen masuk hari ini.'], 400);
+                        }
+                    }elseif ($now->hour > 8 && $now->hour < 17) {
+                        // Jika terlambat
+                        if ($absensiHariIni && empty($absensiHariIni->jam_masuk)) {
+                            $absensi = new Absensi();
+                            $absensi->user_id = $user_id;
+                            $absensi->tanggal = $now->format('Y-m-d'); // Tanggal dalam format Y-m-d
+                            $absensi->jam_masuk = $now->format('H:i:s'); // Jam masuk
+                            $absensi->status = 'Terlambat'; // Status kehadiran
+                            $absensi->created_at = now();
+                            $absensi->updated_at = now();
+                            $absensi->save(); // Menyimpan data absensi ke database
+
+                            return response()->json(['status' => 'valid', 'message' => 'Absensi masuk berhasil dicatat tapi terlambat.'], 200);
+                        } elseif ($absensiHariIni) {
+                            return response()->json(['status' => 'invalid', 'message' => 'Anda sudah absen masuk hari ini.'], 400);
+                        } else {
+                            return response()->json(['status' => 'invalid', 'message' => 'Anda belum melakukan absensi masuk hari ini.'], 400);
+                        }
+                    } elseif ($now->hour >= 17 && $now->hour <= 19) {
+                        // Jika jam sudah lewat 17, set jam keluar jika belum ada jam keluar
+                        if ($absensiHariIni && empty($absensiHariIni->jam_keluar)) {
+                            $absensiHariIni->jam_keluar = $now->format('H:i:s'); // Jam keluar
+                            $absensiHariIni->status = 'Pulang'; // Status pulang
+                            $absensiHariIni->updated_at = now();
+                            $absensiHariIni->save(); // Update data absensi ke database
+
+                            return response()->json(['status' => 'valid', 'message' => 'Absensi pulang berhasil dicatat.'], 200);
+                        } elseif ($absensiHariIni) {
+                            return response()->json(['status' => 'invalid', 'message' => 'Anda sudah absen pulang hari ini.'], 400);
+                        } else {
+                            return response()->json(['status' => 'invalid', 'message' => 'Anda belum melakukan absensi masuk hari ini.'], 400);
+                        }
+                    } else {
+                         // Jika jam sudah lewat 17, set jam keluar jika belum ada jam keluar
+                         if ($absensiHariIni && empty($absensiHariIni->jam_keluar)) {
+                            $absensiHariIni->jam_keluar = $now->format('H:i:s'); // Jam keluar
+                            $absensiHariIni->status = 'Lembur'; // Status pulang
+                            $absensiHariIni->updated_at = now();
+                            $absensiHariIni->save(); // Update data absensi ke database
+
+                            return response()->json(['status' => 'valid', 'message' => 'Absensi pulang berhasil dicatat.'], 200);
+                        } elseif ($absensiHariIni) {
+                            return response()->json(['status' => 'invalid', 'message' => 'Anda sudah absen pulang hari ini.'], 400);
+                        } else {
+                            return response()->json(['status' => 'invalid', 'message' => 'Anda belum melakukan absensi masuk hari ini.'], 400);
+                        }
+                    }
                 }
             }
         }
@@ -70,3 +142,5 @@ class QrCodeController extends Controller
         return response()->json(['status' => 'invalid', 'message' => 'QR Code tidak valid'], 400);
     }
 }
+
+    
