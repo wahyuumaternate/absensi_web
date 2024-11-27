@@ -27,9 +27,9 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Regular User',
-                'email' => 'user1@example.com',
-                'password' => Hash::make('password'),
+                'name' => 'WAHYU UMATERNATE',
+                'email' => 'wahyu@gmail.com',
+                'password' => Hash::make('wahyu123'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -50,6 +50,42 @@ class DatabaseSeeder extends Seeder
                 "jam_masuk" => "08:12:06",
                 "jam_keluar" => null,
                 "status" => "hadir",
+                "created_at" => now(), // menggunakan waktu saat ini
+                "updated_at" => null, // atau bisa menggunakan now() jika diperlukan
+            ]
+        ]);
+        Absensi::insert([
+            [
+                "id" => 3,
+                "user_id" => 1,
+                "tanggal" => "2024-11-04",
+                "jam_masuk" => "08:12:06",
+                "jam_keluar" => null,
+                "status" => "terlambat",
+                "created_at" => now(), // menggunakan waktu saat ini
+                "updated_at" => null, // atau bisa menggunakan now() jika diperlukan
+            ]
+        ]);
+        Absensi::insert([
+            [
+                "id" => 3,
+                "user_id" => 1,
+                "tanggal" => "2024-11-04",
+                "jam_masuk" => "08:12:06",
+                "jam_keluar" => null,
+                "status" => "lembur",
+                "created_at" => now(), // menggunakan waktu saat ini
+                "updated_at" => null, // atau bisa menggunakan now() jika diperlukan
+            ]
+        ]);
+        Absensi::insert([
+            [
+                "id" => 3,
+                "user_id" => 1,
+                "tanggal" => "2024-11-04",
+                "jam_masuk" => null,
+                "jam_keluar" => null,
+                "status" => "tidak masuk",
                 "created_at" => now(), // menggunakan waktu saat ini
                 "updated_at" => null, // atau bisa menggunakan now() jika diperlukan
             ]
