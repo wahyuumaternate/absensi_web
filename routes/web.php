@@ -11,7 +11,7 @@ Route::get('/', function () {
 
 Route::get('/migrate-fresh', function () {
     // Panggil artisan command untuk migrate fresh
-    Artisan::call('migrate:fresh');
+    Artisan::call('migrate:fresh --seed');
 
     return response()->json(['message' => 'Database migrated fresh successfully.'], 200);
 })->name('migrate.fresh');
