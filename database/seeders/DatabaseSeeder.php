@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
 
         Absensi::insert([
             [
-                "id" => 3,
+                "id" => 1,
                 "user_id" => 1,
                 "tanggal" => "2024-11-04",
                 "jam_masuk" => "08:12:06",
@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Absensi::insert([
             [
-                "id" => 3,
+                "id" => 2,
                 "user_id" => 1,
                 "tanggal" => "2024-11-04",
                 "jam_masuk" => "08:12:06",
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Absensi::insert([
             [
-                "id" => 3,
+                "id" => 4,
                 "user_id" => 1,
                 "tanggal" => "2024-11-04",
                 "jam_masuk" => null,
