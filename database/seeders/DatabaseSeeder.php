@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
                 "id" => 4,
                 "user_id" => 1,
                 "tanggal" => "2024-11-04",
-                "jam_masuk" => null,
+                "jam_masuk" => "08:12:06",
                 "jam_keluar" => null,
                 "status" => "tidak masuk",
                 "created_at" => now(), // menggunakan waktu saat ini
