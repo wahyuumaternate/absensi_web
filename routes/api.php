@@ -13,5 +13,4 @@ Route::get('/user', function (Request $request) {
 Route::post('/validate-qr-code', [QrCodeController::class, 'validateQrCode']);
 
 Route::post('login', [AuthController::class, 'login']);
-
-Route::get('data-absen', [AbsenController::class, 'index']);
+Route::get('data-absen/{user_id}', [AbsenController::class, 'index']);

@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class AbsenController extends Controller
 {
-    public function index() {
-        // Mengambil data absensi terbaru
-        $data = Absensi::latest()->get();
+    public function index($user_id) {
+        // Mengambil data absensi terbaru berdasarkan user_id
+        $data = Absensi::where('user_id', $user_id)->latest()->get();
     
         // Mengembalikan respons dalam format JSON
         return response()->json($data, 200);

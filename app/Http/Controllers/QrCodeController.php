@@ -110,7 +110,6 @@ class QrCodeController extends Controller
                         // Jika jam sudah lewat 17, set jam keluar jika belum ada jam keluar
                         if ($absensiHariIni && empty($absensiHariIni->jam_keluar)) {
                             $absensiHariIni->jam_keluar = $now->format('H:i:s'); // Jam keluar
-                            $absensiHariIni->status = 'Pulang'; // Status pulang
                             $absensiHariIni->updated_at = now();
                             $absensiHariIni->save(); // Update data absensi ke database
 
@@ -124,7 +123,6 @@ class QrCodeController extends Controller
                          // Jika jam sudah lewat 17, set jam keluar jika belum ada jam keluar
                          if ($absensiHariIni && empty($absensiHariIni->jam_keluar)) {
                             $absensiHariIni->jam_keluar = $now->format('H:i:s'); // Jam keluar
-                            $absensiHariIni->status = 'Lembur'; // Status pulang
                             $absensiHariIni->updated_at = now();
                             $absensiHariIni->save(); // Update data absensi ke database
 
