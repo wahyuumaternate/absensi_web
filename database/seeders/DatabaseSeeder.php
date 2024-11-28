@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Admin User',
                 'email' => 'admin@gmail.com',
+                'jabatan' => 'ADMIN',
+                'foto' => 'https://wahyuumaternate.my.id/foto1.png',
                 'password' => Hash::make('admin123'), // Jangan lupa untuk mengenkripsi password
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -29,14 +31,18 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'WAHYU UMATERNATE',
                 'email' => 'wahyu@gmail.com',
+                'jabatan' => 'KABID P3RT',
+                'foto' => 'https://wahyuumaternate.my.id/foto1.png',
                 'password' => Hash::make('wahyu123'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Another User',
-                'email' => 'user2@example.com',
-                'password' => Hash::make('password'),
+                'name' => 'Riskal',
+                'email' => 'riskal@gmail.com',
+                'jabatan' => 'SEKUM',
+                'foto' => 'https://psikologi.unair.ac.id/wp-content/uploads/2017/03/foto_profil-sanny.png',
+                'password' => Hash::make('riskal123'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
