@@ -63,8 +63,10 @@
                 });
         }
 
-        // Perbarui QR Code setiap 3 detik
-        // setInterval(refreshQRCode, 30000);
+        // Refresh halaman setiap 3 menit (180000 ms)
+        setInterval(function() {
+            location.reload();
+        }, 180000); // 180000 ms = 3 menit
     </script>
 </body>
 

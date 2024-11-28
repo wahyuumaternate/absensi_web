@@ -5,9 +5,9 @@ use App\Http\Controllers\QrCodeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/migrate-fresh', function () {
     // Panggil artisan command untuk migrate fresh
@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/qrcode', [QrCodeController::class, 'show']);
+// Route::get('/qrcode', [QrCodeController::class, 'show']);
+Route::get('/', [QrCodeController::class, 'show']);
 
 Route::get('/qr-code', [QrCodeController::class, 'getQrCode']);
