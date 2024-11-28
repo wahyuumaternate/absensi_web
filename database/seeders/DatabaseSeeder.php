@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
                 "id" => 1,
                 "user_id" => 1,
                 "tanggal" => "2024-11-04",
-                "jam_masuk" => "08:12:06",
+                "jam_masuk" => now()->format('H:i:s'),
                 "jam_keluar" => null,
                 "status" => "hadir",
                 "created_at" => now(), // menggunakan waktu saat ini
@@ -65,7 +65,7 @@ class DatabaseSeeder extends Seeder
                 "id" => 2,
                 "user_id" => 1,
                 "tanggal" => "2024-11-04",
-                "jam_masuk" => "08:12:06",
+                "jam_masuk" => now()->format('H:i:s'),
                 "jam_keluar" => null,
                 "status" => "terlambat",
                 "created_at" => now(), // menggunakan waktu saat ini
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
                 "id" => 3,
                 "user_id" => 1,
                 "tanggal" => "2024-11-04",
-                "jam_masuk" => "08:12:06",
+                "jam_masuk" => now()->format('H:i:s'),
                 "jam_keluar" => null,
                 "status" => "lembur",
                 "created_at" => now(), // menggunakan waktu saat ini
@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
                 "id" => 4,
                 "user_id" => 1,
                 "tanggal" => "2024-11-04",
-                "jam_masuk" => "08:12:06",
+                "jam_masuk" => now()->format('H:i:s'),
                 "jam_keluar" => null,
                 "status" => "tidak masuk",
                 "created_at" => now(), // menggunakan waktu saat ini
